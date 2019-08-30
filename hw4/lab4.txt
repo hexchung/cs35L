@@ -1,0 +1,57 @@
+assignment 4
+
+------------------------------------
+LABORATORY: DEBUGGING A C PROGRAM
+------------------------------------
+
+BUILDING BUGGY COREUTILS
+
+- in the same manner as last week, i downloaded and untarred the
+  coreutils-with-bug file in linux
+- the file was successfully configured using the prefix option so as to specify
+  an install directory (coreutilsbugInstall)
+- tried to make the file, but ran into an error:
+
+In file included from utimecmp.c:41: 
+utimens.h:2: error: conflicting types for 'futimens'
+/usr/include/sys/stat.h:374: note: previous declaration of 'futimens' was here
+
+- seems to be duplicates of the "futimens" file
+
+APPLYING PATCH 
+
+- for some reason i ran into errors when i downloaded the coreutils-with-bug on
+  my local machine, and then used scp to copy the tar file over to the linux
+  server
+- also tried to copy and paste the diff file into emacs and the patch wouldn't
+  work so i restarted, used curl to download both the coreutils file and the
+  diff file from the assignment webpage and successfully ran configure/make/make
+  install as well as the patch
+
+DEBUGGING
+
+- upon stepping through the ls source file as well as the timespec source file,
+  the program seems to be comparing files first based on their tv_sec value
+  meaing the time value of the file in terms of seconds
+
+//////////////////////// CODE EXCERPT FROM TIMESPEC.H ////////////////////////
+
+/* Return negative, zero, positive if A < B, A == B, A > B, respectively.
+Assume the nanosecond components are in range, or close to it.  */ 
+
+static inline int timespec_cmp (struct timespec a, struct timespec b)
+{ int diff = a.tv_sec - b.tv_sec; return diff ? diff : a.tv_nsec - b.tv_nsec; }
+
+//////////////////////// CODE EXCERPT FROM TIMESPEC.H ////////////////////////
+
+- however, for a file like wwi-armistice, the tv_sec value becomes negative due
+  to the fact that it is older than 1970 (epoch unix)
+- since it is a large negative number, there is probably some error in casting
+  the byte size over when it gets compared im timespec (a.tv_sec - b.tv_sec)
+  because when i ran the debugger, it was outputting a random positive number
+  despite the calculation being (shortened for this purpse) -16 - 15 which
+  should yield a negative number
+
+- i was not able to fix the bug in the lab, however i believe it has something
+  to do with casting the return value from timespec_cmp to a long int or another
+  data type that can hold more bytes

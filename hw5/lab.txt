@@ -1,0 +1,42 @@
+assignment 5 lab
+-----------------
+
+1. write a C transliteration program tr2b.c that uses getchar and putchar to
+transliterate bytes as described above.
+
+SAVING ARGUMENTS 
+- in order to have my function accept the two operands from and to, i passed
+  argc, char *argv[] in main and saved the two arguments in char pointers
+- program will exit 1 if an incorrect number of arguments are provided
+
+GETCHAR
+- using getchar() until end of file, i want to check each char in from and if it
+  matches, replace it with the corresponding char in to
+
+2. write a C program tr2u.c that uses read and write to transliterate bytes,
+instead of using getchar and putchar. the nbyte arguments to read and write
+should be 1, so that the program reads and writes single bytes at a time.
+
+- i saved arguments into char pointers again like in tr2b.c but instead of using
+  getchar() until EOF, i called read() on each byte one byte at a time and
+  compared that char to the chars in from
+- since the read function returns the number of bytes it read, i set the while
+  loop so it would continue while read returns 1 (for the one byte read at a
+  time)
+- i initially tried to pass a char pointer by value into the second parameter of
+  read but was able to mitigate those errors by passing the char by reference
+  insted so it can be changed and ultimately transliterated
+- write() worked similarly in that i had to pass the char * by reference as well
+  in order for the contents to be written over
+
+3. Use the strace command to compare the system calls issued by your tr2b and
+tr2u commands (a) when copying one file to another, and (b) when copying a file
+to your terminal. Use a file that contains at least 5,000,000 bytes.
+
+- after creating a 5,000,000 byte file, i found that both of my tr2b and tr2u
+  executables were outputting strange results
+- how can i make these programs more efficient....? 
+
+4. Use the time command to measure how much faster one program is, compared to
+the other, when copying the same amount of data.
+

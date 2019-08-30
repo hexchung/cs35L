@@ -1,0 +1,38 @@
+assignment 5: homework
+
+PERFORMANCE COMPARISONS
+
+sfrobu vs sfrob
+
+- in this time performance comparison, the sfrob program from assignment 4
+  compiled and ran .022 seconds slower than sfrobu from this assignment
+- after running the time command, i received the following outputs for sfrobu
+  and sfrob, respectively:
+
+[ sfrobu ]
+real	   0m0.002s
+user	   0m0.000s
+sys	   0m0.001s
+
+[ sfrob ]
+real	0m0.024s
+user	0m0.001s
+sys	0m0.001s
+
+- "Run your program on inputs of varying numbers of input lines, and estimate
+  the number of comparisons as a function of the number of input lines."
+
+^^ what???
+
+sfrobs vs sfrobu
+
+- 
+
+sfrobs vs sfrob
+
+- 
+
+sfrobu -f vs sfrobs -f
+
+- 
+

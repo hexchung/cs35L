@@ -1,0 +1,45 @@
+assignment 3 homework
+
+QUESTION ONE
+
+- brady's patch removed the line "case_long_iso_time_style:" because that was
+  the line of code that produced the YYYY-MM-DD H:M format in the initial ls
+  source file
+
+- technically, it wasn't necessary to delete this line because in the original
+  file, there was an if statement that used the case_long_iso_time_style line of
+  code but since that if statement was also deleted in the patch, it is
+  irrelevant to delete case_long_iso_time_style because it will never be called
+  in the new file
+
+QUESTION TWO
+
+- in order to test whether this patch will work in different countries, i
+  changed the locale to japanese
+
+$ export LC_ALL='ja_JP.eucjp'
+
+- upon running the modified ls file on ~/Desktop/hw3, the date format showed
+  "10??" or "4??" as opposed to the month format "Oct" or "Apr"
+- while the program was able to successfully translate the english text to the
+  proper month number, the patch should instead have code that defaults to the
+  previous long iso time style with the two-field numeric date format for
+  locales that are not en_*
+
+QUESTION THREE
+
+- the program outputs error messages from the lines of code in the source file,
+  as well as gives an Index Error saying that the list index is out of range
+- this occurs because the program was not given any input to randomly choose
+  lines of text from, so as it shows in line 261 of the python script, if the
+  random generator is not provided input, it will throw an index error  
+
+QUESTION FOUR
+
+- when i run randline.py using python3, the program throws a syntax error in
+  line 65 
+- this is because while python 2 is able to accept tuples as excpet
+  args, that feature was removed in python 3 since automatic unpacking is no
+  longer possible 
+- this feature was removed in python 3 in order to be more
+  explicit and human-readable

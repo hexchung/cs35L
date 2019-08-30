@@ -1,0 +1,64 @@
+assignment 3 log
+
+DOWNLOAD AND INSTALL COREUTILS-7.6
+
+- used curl to download the coreutils file
+- untar/unzipped with the command $ tar -xzvf coreutils-7.6.tar.gz (x meaning
+  extract, z meanig gzip, v meaning verbose, and f meaning file)
+- i used the prefix option with ./configure in order to install all of the
+  coreutils files into a new directory called coreutilsInstall
+- then ran the commands make and make install in order to complete the process
+
+- in order to reproduce the bug, i first attempted to run ls, then ./ls, and
+  upon realizing the ls file was in coreutilsInstall/bin, i changed the current
+  directory so that i could run the command ./ls -l
+- the output did produce the bug in which the date format is YYYY-MM-DD
+
+path for incorrect ls program:
+/u/eng/class/classhus/Desktop/hw3/coreutilsInstall/bin/ls
+
+PATCHING PROCESS
+
+- create a new file called patch_file that contains brady's patch content
+
+used command $ patch -p1 < patch_file
+
+- used the pnum option p1 because the files in the patch content have a leading
+  a or b and i want to truncate that to just /src/ls.c so that patch can find
+  the file in my directory
+
+- in order to show that the *uninstalled* but modified ls works, i ran the
+  src/ls file in the coreutils directory (NOT the coreutilsInstall directory)
+
+$ ./src/ls -l
+
+- this successfully showed the date format as "month" "day" "year" (i.e., Sept
+  19 2009 instead of YYYY-MM-DD format)
+
+- if i change my directory to coreutilsInstall, i can run /bin/ls -l and it
+  still prints the incorrect date format showing that both executables exist
+  and the buggy ls was not overwritten
+
+TESTING CORRECT LS
+
+- i want to test a file that has been recently modified vs a file that is at
+  least a year old so i create a file using touch -t for the old date and simply
+  create a new file for the recent date
+
+$ touch -t 0404201620 oldfile
+
+- in the directory of coreutilsInstall/bin, i can run the ls -l command for my
+  hw3 directory which contains recently modified files as well as my file from
+  2004 that i created with touch
+
+$ ./ls -l ~/Desktop/hw3
+
+- this command outputs the incorrect date format YYYY-MM-DD
+
+$ ./src/ls -l ~/Desktop/hw3
+
+- if i change the directory to coreutils, then running the src/ls -l command
+  also for my hw3 directory shows the correct date format
+- however, i do notice that the time stamp does not show for the file from 2004,
+  whereas the recently modified files do not show the year, but does show the
+  time stamp

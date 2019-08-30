@@ -53,7 +53,7 @@ do
 
 				if [ $(echo $file1 | grep -q '^.') ] || [ "$file1" \< "$file2" ] 
 				then
-                    $(ln $file1 tmp ; mv tmp $file2)
+                    			$(ln $file1 tmp ; mv tmp $file2)
 				else
 					$(ln $file2 tmp ; mv tmp $file1)
 				fi
